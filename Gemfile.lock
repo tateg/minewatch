@@ -33,6 +33,11 @@ GEM
     crass (1.0.4)
     dotenv (2.5.0)
     erubi (1.7.1)
+    et-orbi (1.1.6)
+      tzinfo
+    fugit (1.1.6)
+      et-orbi (~> 1.1, >= 1.1.6)
+      raabro (~> 1.1)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     i18n (1.1.1)
@@ -48,6 +53,7 @@ GEM
     minitest (5.11.3)
     nokogiri (1.8.5)
       mini_portile2 (~> 2.3.0)
+    raabro (1.1.6)
     rack (2.0.6)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -56,6 +62,8 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.0.4)
       loofah (~> 2.2, >= 2.2.2)
+    rufus-scheduler (3.5.2)
+      fugit (~> 1.1, >= 1.1.5)
     thread_safe (0.3.6)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
@@ -67,6 +75,7 @@ DEPENDENCIES
   actionmailer
   dotenv
   json
+  rufus-scheduler
 
 BUNDLED WITH
    1.17.1

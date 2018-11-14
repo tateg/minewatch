@@ -3,37 +3,41 @@
 require 'net/http'
 require 'json'
 
-WORKERS = ENV['ETH_WORKERS']
+class MineWatch
+  attr_reader :pool_api_url, :addr, :root_query, :workers
 
-# Ethereum
-ETH_POOL_API_URL = ENV['ETH_POOL_API_URL']
-ETH_ADDR = ENV['ETH_ADDR']
-ETH_ROOT_PATH = "/miner/#{ETH_ADDR}/"
-ETH_STAT_PATH = ETH_ROOT_PATH + 'currentStats'
-ETH_WORK_PATH = ETH_ROOT_PATH + 'workers'
+  def initialize(args)
+    @pool_api_url = args.fetch(:pool_api_url)
+    @addr         = args.fetch(:addr)
+    @workers      = args.fetch(:workers)
+  end
 
-# Z-cash
-ZEC_POOL_API_URL = ''
-ZEC_ADDR = ''
+  def miner_query
+    "/miner/#{addr}/"
+  end
 
-# Monero
-XMR_POOL_API_URL = ''
-XMR_ADDR = ''
+  def miner_stats_query
+    miner_query + 'currentStats'
+  end
 
-def make_query(pool:, path:)
-  u_path = URI(pool + path)
-  res = Net::HTTP.get(u_path)
-  JSON.parse(res)
-end
+  def miner_worker_query
+    miner_query + 'workers'
+  end
 
-def current_active_workers(pool:, path:)
-  make_query(pool: pool, path: path)['data']['activeWorkers'].to_i
-end
+  def make_query(type)
+    u_path = URI(pool_api_url + type)
+    res = Net::HTTP.get(u_path)
+    JSON.parse(res)
+  end
 
-def workers_online?(pool:, path:)
-  WORKERS == current_active_workers(pool: pool, path: path)
-end
+  def current_active_workers
+    make_query(miner_stats_query)['data']['activeWorkers'].to_i
+  end
 
-def get_worker_info(pool:, path:)
-  
+  def all_workers_online?
+    workers == current_active_workers
+  end
+
+  def get_worker_info
+  end
 end

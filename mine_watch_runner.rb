@@ -23,8 +23,6 @@ ActionMailer::Base.smtp_settings = {
   }
 # Load mailer views from ./mailer/ dir
 ActionMailer::Base.view_paths = File.dirname(__FILE__)
-# Instantiate mailer
-mailer = Mailer.notification(to: ENV['EMAIL_TO'], from: ENV['EMAIL_FROM'], subject: ENV['EMAIL_SUBJECT'])
 # Instantiate scheduler
 scheduler = Rufus::Scheduler.new
 # Instantiate MineWatch
@@ -33,8 +31,18 @@ minewatch = MineWatch.new({ pool_api_url: ENV['ETH_POOL_API_URL'],
                             workers: ENV['WORKERS']
 })
 
+worker_alert_count = 0
+
 scheduler.every '5m' do
-  mailer.deliver unless minewatch.all_workers_online?
+  workers_online = minewatch.all_workers_online?
+  worker_diff = "#{minewatch.current_active_workers}/#{ENV['WORKERS']} Workers Online"
+  mailer = Mailer.notification(to: ENV['EMAIL_TO'], from: ENV['EMAIL_FROM'], subject: ENV['EMAIL_SUBJECT'], worker_diff: worker_diff)
+  if !workers_online
+    worker_alert_count += 1
+    mailer.deliver unless (worker_alert_count.between?(3, 72) || (worker_alert_count % 72).zero?)
+  else
+    worker_alert_count = 0
+  end
 end
 
 scheduler.cron '0 18 * * *' do

@@ -1,0 +1,15 @@
+[Unit]
+Description=MineWatch Worker Monitor
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=3
+User=<username>
+WorkingDirectory=<path_to_app_directory>
+ExecStart=/home/<username>/.rbenv/bin/rbenv exec ruby mine_watch_runner.rb
+
+[Install]
+WantedBy=multi-user.target

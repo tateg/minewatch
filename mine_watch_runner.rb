@@ -21,30 +21,33 @@ ActionMailer::Base.smtp_settings = {
    :password       => ENV['EMAIL_PASSWORD'],
    :enable_starttls_auto => true
   }
-# Load mailer views from ./mailer/ dir
 ActionMailer::Base.view_paths = File.dirname(__FILE__)
-# Instantiate scheduler
 scheduler = Rufus::Scheduler.new
-# Instantiate MineWatch
 minewatch = MineWatch.new({ pool_api_url: ENV['ETH_POOL_API_URL'],
                             addr: ENV['ETH_ADDR'],
-                            workers: ENV['WORKERS']
+                            workers: ENV['WORKERS'].to_i
 })
 
 worker_alert_count = 0
 
+# 5 Minute Online Workers Test
 scheduler.every '5m' do
   workers_online = minewatch.all_workers_online?
   worker_diff = "#{minewatch.current_active_workers}/#{ENV['WORKERS']} Workers Online"
   mailer = Mailer.notification(to: ENV['EMAIL_TO'], from: ENV['EMAIL_FROM'], subject: ENV['EMAIL_SUBJECT'], worker_diff: worker_diff)
   if !workers_online
-    worker_alert_count += 1
-    mailer.deliver unless (worker_alert_count.between?(3, 72) || (worker_alert_count % 72).zero?)
+    if worker_alert_count > 3
+      mailer.deliver if (worker_alert_count % 12).zero? # only alert every hour after 3 alerts in succession
+    else
+      mailer.deliver
+      worker_alert_count += 1
+    end
   else
     worker_alert_count = 0
   end
 end
 
+# Daily Summary Email
 scheduler.cron '0 18 * * *' do
   # deliver daily summary here
 end

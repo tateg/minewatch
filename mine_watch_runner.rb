@@ -34,7 +34,7 @@ worker_alert_count = 0
 scheduler.every '5m' do
   workers_online = minewatch.all_workers_online?
   worker_diff = "#{minewatch.current_active_workers}/#{ENV['WORKERS']} Workers Online"
-  mailer = Mailer.notification(to: ENV['EMAIL_TO'], from: ENV['EMAIL_FROM'], subject: ENV['EMAIL_SUBJECT'], worker_diff: worker_diff)
+  mailer = Mailer.notification(to: ENV['EMAIL_TO'], from: ENV['EMAIL_FROM'], subject: ENV['EMAIL_SUBJECT_ALERT'], view_args: { worker_diff: worker_diff })
   if !workers_online
     if worker_alert_count > 3
       mailer.deliver if (worker_alert_count % 12).zero? # only alert every hour after 3 alerts in succession
@@ -49,7 +49,14 @@ end
 
 # Daily Summary Email
 scheduler.cron '0 18 * * *' do
-  # deliver daily summary here
+  worker_diff = "#{minewatch.current_active_workers}/#{ENV['WORKERS']} Workers Online"
+  summary_stats = { current_hashrate: minewatch.current_hashrate,
+                    avg_hashrate: minewatch.avg_hashrate,
+                    usd_per_day: minewatch.usd_per_day,
+                    usd_per_month: minewatch.usd_per_month,
+                    worker_diff: worker_diff }
+  mailer = Mailer.daily_summary(to: ENV['EMAIL_TO'], from: ENV['EMAIL_FROM'], subject: ENV['EMAIL_SUBJECT_SUMMARY'], view_args: summary_stats)
+  mailer.deliver  
 end
 
 scheduler.join

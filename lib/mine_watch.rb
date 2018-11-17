@@ -19,6 +19,29 @@ class MineWatch
   end
 
   def get_worker_info
+    make_query(miner_stats_query)['data']
+  end
+
+  def usd_per_min
+    get_worker_info['usdPerMin'].to_f
+  end
+
+  def usd_per_day
+    (usd_per_min * 60 * 24).round(2)
+  end
+
+  def usd_per_month
+    (usd_per_day * 30).round(2)
+  end
+
+  # current in MH/s
+  def current_hashrate
+    get_worker_info['currentHashrate'].to_i / 1_000_000
+  end
+
+  # avg in MH/s
+  def avg_hashrate
+    get_worker_info['averageHashrate'].to_i / 1_000_000
   end
 
   private

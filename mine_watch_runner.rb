@@ -6,7 +6,7 @@ require 'rufus-scheduler'
 # ENV vars are loaded from config.env
 Dotenv.load('config.env')
 
-require_relative 'mine_watch'
+require_relative 'lib/mine_watch'
 require_relative 'mailer'
 
 # Initialize ActionMailer Configuration

@@ -1,0 +1,57 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.ethermine.org/poolStats
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - api.ethermine.org
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 19 Nov 2018 00:27:37 GMT
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d5310ae92f64555645a5a111b1e8d555c1542587257; expires=Tue, 19-Nov-19
+        00:27:37 GMT; path=/; domain=.ethermine.org; HttpOnly
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Download-Options:
+      - noopen
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      Access-Control-Allow-Origin:
+      - "*"
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 47be8d563f9c9650-SJC
+    body:
+      encoding: UTF-8
+      string: '{"status":"OK","data":{"topMiners":[],"minedBlocks":[{"number":6730469,"miner":"326c911cc6bf8be4b9174cff5ec456a8eee347e7","time":1542587136},{"number":6730468,"miner":"eC9c0B5591139621e9364646D5C580CB95cA45B3","time":1542587075},{"number":6730467,"miner":"00a12905F920fb03A31b5A022dd50fBf7D6B4D53","time":1542587034},{"number":6730466,"miner":"396dF9Bc55900466046EcE519aE3882524Ab59b8","time":1542587029},{"number":6730463,"miner":"4553bb4686df5d226797c2dbcbc176b698fe962b","time":1542586978},{"number":6730463,"miner":"aE487114FFEbCE30Ff23617406Cd62516B7e870F","time":1542586978},{"number":6730462,"miner":"d147378e215732ea48543a43c8e0cc75569c0197","time":1542586976},{"number":6730452,"miner":"7014a8a891fb7db38caf1ce5d15600f7ecce9da1","time":1542586849},{"number":6730450,"miner":"2843270A8949c10319E83C5deBAf4D322574dC77","time":1542586808},{"number":6730445,"miner":"19b78a881c14c6b1706fafbc8931b585490f4f0d","time":1542586767}],"poolStats":{"hashRate":60789419166663.234,"miners":92591,"workers":378887,"blocksPerHour":75.46},"price":{"usd":176.48,"btc":0.03152}}}'
+    http_version: 
+  recorded_at: Mon, 19 Nov 2018 00:27:37 GMT
+recorded_with: VCR 4.0.0

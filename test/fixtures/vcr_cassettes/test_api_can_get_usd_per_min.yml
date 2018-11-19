@@ -1,0 +1,65 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.ethermine.org/miner/{addr}/currentStats
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - api.ethermine.org
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 19 Nov 2018 00:56:24 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=dfe6365329187546c43c4d0e49f510c391542588984; expires=Tue, 19-Nov-19
+        00:56:24 GMT; path=/; domain=.ethermine.org; HttpOnly
+      Vary:
+      - Accept-Encoding
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Download-Options:
+      - noopen
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      Access-Control-Allow-Origin:
+      - "*"
+      Cache-Control:
+      - max-age=60
+      Etag:
+      - W/"17b-DwPQ+fms7TA8sauPKTqBsLM2fIg"
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 47beb77f59d89384-SJC
+    body:
+      encoding: ASCII-8BIT
+      string: '{"status":"OK","data":{"time":1542588600,"lastSeen":1542588562,"reportedHashrate":0,"currentHashrate":293666666.6666667,"validShares":263,"invalidShares":0,"staleShares":2,"averageHashrate":275731284.47596514,"activeWorkers":2,"unpaid":18858911487957810,"unconfirmed":null,"coinsPerMin":0.000015241381661542707,"usdPerMin":0.0026872080007465946,"btcPerMin":4.801035223385953e-7}}'
+    http_version: 
+  recorded_at: Mon, 19 Nov 2018 00:56:24 GMT
+recorded_with: VCR 4.0.0

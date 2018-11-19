@@ -10,6 +10,14 @@ class MineWatch
     @workers      = args.fetch(:workers)
   end
 
+  def get_pool_stats
+    make_query(pool_stats_query)['data']['poolStats']
+  end
+
+  def get_pool_workers
+    get_pool_stats['workers']
+  end
+
   def current_active_workers
     make_query(miner_stats_query)['data']['activeWorkers'].to_i
   end
@@ -56,6 +64,10 @@ class MineWatch
 
   def miner_worker_query
     miner_query + 'workers'
+  end
+
+  def pool_stats_query
+    '/poolStats'
   end
 
   def make_query(type)

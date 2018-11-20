@@ -1,12 +1,11 @@
-#!/usr/bin/env ruby
-
 require 'action_mailer'
 
+# compose and send email notifications
 class Mailer < ActionMailer::Base
   def notification(to:, from:, subject:, view_args:)
     @worker_diff = view_args[:worker_diff] || 'N/A'
     @footer_timestamp = footstamp
-    
+
     mail_with_format(to: to, from: from, subject: subject)
   end
 
@@ -24,7 +23,7 @@ class Mailer < ActionMailer::Base
   private
 
   def footstamp
-    Time.now.strftime("%m/%d/%Y%l:%M:%S %p %Z") # timestamp for footer of email to prevent trimming
+    Time.now.strftime('%m/%d/%Y%l:%M:%S %p %Z') # timestamp for footer of email to prevent trimming
   end
 
   def mail_with_format(to:, from:, subject:)

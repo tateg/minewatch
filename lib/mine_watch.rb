@@ -1,6 +1,7 @@
 require 'net/http'
 require 'json'
 
+# wrapper for querying pool, miner and worker status via pool api
 class MineWatch
   attr_reader :pool_api_url, :addr, :root_query, :workers
 
@@ -10,12 +11,12 @@ class MineWatch
     @workers      = args.fetch(:workers)
   end
 
-  def get_pool_stats
+  def pool_stats
     make_query(pool_stats_query)['data']['poolStats']
   end
 
-  def get_pool_workers
-    get_pool_stats['workers']
+  def pool_workers
+    pool_stats['workers']
   end
 
   def current_active_workers
@@ -26,12 +27,12 @@ class MineWatch
     workers == current_active_workers
   end
 
-  def get_worker_info
+  def worker_info
     make_query(miner_stats_query)['data']
   end
 
   def usd_per_min
-    get_worker_info['usdPerMin'].to_f
+    worker_info['usdPerMin'].to_f
   end
 
   def usd_per_day
@@ -44,12 +45,12 @@ class MineWatch
 
   # current in MH/s
   def current_hashrate
-    get_worker_info['currentHashrate'].to_i / 1_000_000
+    worker_info['currentHashrate'].to_i / 1_000_000
   end
 
   # avg in MH/s
   def avg_hashrate
-    get_worker_info['averageHashrate'].to_i / 1_000_000
+    worker_info['averageHashrate'].to_i / 1_000_000
   end
 
   private

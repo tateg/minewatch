@@ -1,10 +1,11 @@
 source 'https://rubygems.org'
 
-gem "minitest-reporters"
-gem "vcr"
-gem "webmock"
-gem "shoulda-context"
-gem "json"
-gem "actionmailer"
-gem "dotenv"
-gem "rufus-scheduler"
+gem 'actionmailer'
+gem 'dotenv'
+gem 'json'
+gem 'minitest-reporters'
+gem 'rubocop', '~> 0.60.0', require: false
+gem 'rufus-scheduler'
+gem 'shoulda-context'
+gem 'vcr'
+gem 'webmock'

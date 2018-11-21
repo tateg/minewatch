@@ -11,12 +11,16 @@ Dotenv.load('config.env')
 require_relative 'lib/mine_watch'
 require_relative 'mailer'
 
-# Setup logging to log dir
+# Setup logging to log dir and redirect stdout/stderr
 log_location = 'log/'
 log_name = 'mine_watch_runner.log'
 log_rotation_interval = 'daily'
 FileUtils.mkdir(log_location) unless Dir.exist?(log_location)
 logger = Logger.new(log_location + log_name, log_rotation_interval)
+
+$stdout.reopen(log_location + log_name, 'w')
+$stderr.reopen(log_location + log_name, 'w')
+puts 'Redirecting STDOUT/STDERR to log'
 
 # Initialize ActionMailer Configuration
 logger.info 'Setting up ActionMailer configuration...'
@@ -61,7 +65,7 @@ scheduler.every '5m' do
       logger.info "New worker alert count is #{worker_alert_count}"
     end
   else
-    logger.success "All workers online (#{worker_diff}), resetting worker_alert_count and sleeping..."
+    logger.info "All workers online (#{worker_diff}), resetting worker_alert_count and sleeping..."
     worker_alert_count = 0
   end
 end
